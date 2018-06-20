@@ -1,24 +1,24 @@
 <template>
   <div class="app-container">
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="拼命加载中" border fit highlight-current-row>
-      <el-table-column align="center" label='ID' width="95">
+      <el-table-column align="center" label='行号' width="95">
         <template scope="scope">
-          {{scope.$index}}
+          {{scope.$index+1}}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column label="姓名">
         <template scope="scope">
-          {{scope.row.title}}
+          {{scope.row.fullname}}
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column label="用户名" width="110" align="center">
         <template scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
+      <el-table-column label="电话" width="110" align="center">
         <template scope="scope">
-          {{scope.row.pageviews}}
+          {{scope.row.tel}}
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" label="Status" width="110" align="center">
@@ -33,6 +33,15 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <el-pagination
+            background
+            layout="prev, pager, next"
+            @current-change="changePage"
+            :current-page="pageNum"
+            :total="total">
+    </el-pagination>
+
   </div>
 </template>
 
@@ -43,6 +52,8 @@ export default {
   data() {
     return {
       list: null,
+      total:0,
+      pageNum:1,
       listLoading: true
     }
   },
@@ -62,10 +73,19 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.listLoading = false
+      //this.listQuery
+      // console.log('111');
+      getList({pageNum:this.pageNum}).then(response => {
+          //console.log(response);
+        this.list = response.data.list;
+        this.total = response.data.total;
+        this.pageNum = response.data.pageNum;
+        this.listLoading = false;
       })
+    },
+    changePage(val){
+        this.pageNum = val;
+        this.fetchData();
     }
   }
 }

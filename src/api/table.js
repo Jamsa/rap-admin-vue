@@ -1,8 +1,9 @@
 import fetch from '@/utils/fetch'
 
 export function getList(params) {
+  console.log('333333');
   return fetch({
-    url: '/table/list',
+    url: '/user',
     method: 'get',
     params
   })

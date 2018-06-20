@@ -22,7 +22,7 @@ export const constantRouterMap = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    name: 'Dashboard',
+    name: '首页',
     hidden: true,
     children: [{ path: 'dashboard', component: _import('dashboard/index') }]
   },
@@ -44,15 +44,45 @@ export const constantRouterMap = [
     redirect: '/table/index',
     icon: 'tubiao',
     noDropdown: true,
-    children: [{ path: 'index', name: 'Table', component: _import('table/index'), meta: { role: ['admin'] }}]
+    children: [
+        { path: 'index', name: 'Table', component: _import('table/index'), meta: { role: ['admin'] }}
+    ]
+  },
+
+  {
+      component: Layout,
+      path:'/user',
+      redirect: '/user/index',
+      icon: 'tubiao',
+      noDropdown: true,
+      //name:'用户管理',
+      children: [
+        { path: 'index', name: '用户管理', component: _import('user/index'), meta: { role: ['admin'] }},
+        { path: 'create', name: '新建用户', component: _import('user/detail'), meta: { role: ['admin'] }},
+        { path: ':id', name: '用户明细', component: _import('user/detail'), meta: { role: ['admin'] }}
+      ]
+  },
+
+  {
+    component: Layout,
+    path:'/role',
+    redirect: '/role/index',
+    icon: 'tubiao',
+    noDropdown: true,
+    //name:'用户管理',
+    children: [
+      { path: 'index', name: '角色管理', component: _import('role/index'), meta: { role: ['admin'] }},
+      { path: 'create', name: '创建角色', component: _import('role/detail'), meta: { role: ['admin'] }},
+      { path: ':id', name: '角色明细', component: _import('role/detail'), meta: { role: ['admin'] }}
+    ]
   },
 
   { path: '*', redirect: '/404', hidden: true }
-]
+];
 
 export default new Router({
   // mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
-})
+});
 

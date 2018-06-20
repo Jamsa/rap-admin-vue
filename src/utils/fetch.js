@@ -12,7 +12,7 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(config => {
   if (store.getters.token) {
-    config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+    config.headers['token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
   return config
 }, error => {
@@ -27,10 +27,10 @@ service.interceptors.response.use(
   /**
   * code为非20000是抛错 可结合自己业务进行修改
   */
-    const res = response.data
-    if (res.code !== 20000) {
+    /*const res = response.data
+    if (res.code !== 200) {
       Message({
-        message: res.data,
+        message: res.message,
         type: 'error',
         duration: 5 * 1000
       })
@@ -46,20 +46,46 @@ service.interceptors.response.use(
             location.reload()// 为了重新实例化vue-router对象 避免bug
           })
         })
-      }
+      }*/
+    /*if(response.status!='200'){
       return Promise.reject('error')
     } else {
-      return response.data
-    }
+      return response//.data
+    }*/
+    return response;
   },
   error => {
-    console.log('err' + error)// for debug
+    //console.log('err' + error)// for debug
+    var msg =  '未知错误!';
+    if(error && error.response) {
+        switch (error.response.status) {
+            case 400: msg = '请求错误(400)：' ; break;
+            case 401: msg = '未授权，请重新登录(401)'; break;
+            case 403: msg = '拒绝访问(403)'; break;
+            case 404: msg = '请求出错(404)，未找到数据'; break;
+            case 408: msg = '请求超时(408)'; break;
+            case 500: msg = '服务器错误(500)'; break;
+            case 501: msg = '服务未实现(501)'; break;
+            case 502: msg = '网络错误(502)'; break;
+            case 503: msg = '服务不可用(503)'; break;
+            case 504: msg = '网络超时(504)'; break;
+            case 505: msg = 'HTTP版本不受支持(505)'; break;
+            default: msg = `连接出错(${err.response.status})!`;
+        }
+    }
+    /*this.$message({
+      showClose: true,
+      message: msg+(error.response.data?error.response.data:''),
+      type: 'error'
+    });*/
     Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
+        message: msg+(error.response.data?error.response.data:''),
+        type: 'error',
+        duration: 5 * 1000,
+        showClose:true
+    });
+    error.message = msg;
+    return Promise.reject(error);
   }
 )
 
