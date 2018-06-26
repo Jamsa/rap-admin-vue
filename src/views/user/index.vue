@@ -117,7 +117,7 @@
         this.listLoading = true
         //this.listQuery
         // console.log('111');
-        getList({pageNum: this.pageNum}).then(response => {
+        getList({pageNum: this.pageNum,fullname:this.searchCondition.fullname}).then(response => {
           //console.log(response);
           this.list = response.data.list;
           this.total = response.data.total;

@@ -1,5 +1,12 @@
 import fetch from '@/utils/fetch'
 
+import createApi from '@/utils/apis'
+
+
+export default createApi('role')
+
+
+/*
 export function getList(params) {
   return fetch({
     url: '/role',
@@ -23,9 +30,9 @@ export function saveDetail(detail){
     })
 }
 
-export function updateDetail(detail){
+export function updateDetail(id,detail){
     return fetch({
-        url: '/role',
+        url: '/role/'+id,
         method:'put',
         data:detail
     })
@@ -36,4 +43,4 @@ export function deleteDetail(id){
     url:'/role/'+id,
     method:'delete'
     })
-}
+}*/

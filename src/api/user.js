@@ -23,9 +23,9 @@ export function saveDetail(detail){
     })
 }
 
-export function updateDetail(detail){
+export function updateDetail(id,detail){
     return fetch({
-        url: '/user',
+        url: '/user/'+id,
         method:'put',
         data:detail
     })

@@ -55,7 +55,7 @@
 </template>
 
 <script>
- import {getList, getDetail, saveDetail, updateDetail, deleteDetail} from '@/api/role'
+ import roleApi from '@/api/role'
 
  export default {
    data() {
@@ -115,7 +115,7 @@
          return
        }
        this.detailLoading = true
-       getDetail(id).then(response => {
+       roleApi.getDetail(id).then(response => {
          this.detail = response.data
          this.detailLoading = false
        }, () => {
@@ -127,7 +127,7 @@
          if (valid) {
            this.detailLoading = true
            if (this.detail && this.detail.primaryKey) {
-             updateDetail(this.detail).then(response => {
+             roleApi.updateDetail(this.detail.primaryKey,this.detail).then(response => {
                this.detailLoading = false
                if (op) {
                  this.fetchData('new')
@@ -137,7 +137,7 @@
                this.detailLoading = false
              })
            } else {
-             saveDetail(this.detail).then(response => {
+             roleApi.saveDetail(this.detail).then(response => {
                this.detailLoading = false
                if (op) {
                  this.fetchData('new')
@@ -154,7 +154,7 @@
      },
      onDelete(id) {
        this.detailLoading = true
-       deleteDetail(id).then(response => {
+       roleApi.deleteDetail(id).then(response => {
          this.$message('删除成功！')
          this.detailLoading = false
          this.$emit('deleted')

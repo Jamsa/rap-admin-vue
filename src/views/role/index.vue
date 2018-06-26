@@ -9,7 +9,7 @@
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
-      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="fetchData">搜索</el-button>
+      <el-button class="filter-item" type="primary"  icon="el-icon-search" @click="fetchData">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" @click="onCreate" type="primary" icon="el-icon-add">添加</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" @click="onEdit" type="primary" icon="el-icon-edit">编辑</el-button>
       <!-- 
@@ -85,7 +85,7 @@
 </template>
 
 <script>
- import { getList, getDetail } from '@/api/role'
+ import roleApi from '@/api/role'
  import { default as RoleForm } from './detail.vue'
 // import waves from '@/directive/waves' // 水波纹指令
 
@@ -125,7 +125,7 @@
    methods: {
      fetchData() {
        this.listLoading = true
-       getList({ pageNum: this.pageNum }).then(response => {
+       roleApi.getList({ pageNum: this.pageNum }).then(response => {
          this.list = response.data.list
          this.total = response.data.total
          this.pageNum = response.data.pageNum

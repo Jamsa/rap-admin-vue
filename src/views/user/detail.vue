@@ -111,7 +111,7 @@
       fetchData(id){
         this.detailLoading = true;
         getDetail(id).then(response => {
-          this.detail = response.data
+          this.detail = Object.assign({sex:'F'},response.data)
           this.listLoading = false
         }, error => {
           this.detailLoading = false
@@ -122,7 +122,7 @@
           if (valid) {
             this.detailLoading = true
             if (this.detail && this.detail.primaryKey) {
-              updateDetail(this.detail).then(response => {
+              updateDetail(this.detail.primaryKey,this.detail).then(response => {
                 this.$message('修改成功!')
                 this.detailLoading = false
               }, error => {
