@@ -12,15 +12,16 @@ router.beforeEach((to, from, next) => {
   if (getToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
+      NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       next()
       /* if (store.getters.roles.length === 0) {
         store.dispatch('GetInfo').then(res => { // 拉取用户信息
           next()
-        }).catch(() => {
+        }).catch((err) => {
           store.dispatch('FedLogOut').then(() => {
-            Message.error('验证失败,请重新登录')
-            next({ path: '/login' })
+            Message.error(err || 'Verification failed, please login again')
+            next({ path: '/' })
           })
         })
       } else {

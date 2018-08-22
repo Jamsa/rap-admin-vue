@@ -1,8 +1,8 @@
-import fetch from '@/utils/fetch'
+import request from '@/utils/request'
 
 export function getList(params) {
-  console.log('333333');
-  return fetch({
+
+  return request({
     url: '/user',
     method: 'get',
     params
