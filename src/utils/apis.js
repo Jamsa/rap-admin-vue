@@ -1,10 +1,9 @@
-import fetch from '@/utils/fetch'
+import request from '@/utils/request'
 
-export default function createApi(moduleName){
-
-  let api = {
-    getList: function (params) {
-      return fetch({
+export default function createApi(moduleName) {
+  const api = {
+    getList: function(params) {
+      return request({
         url: `/${moduleName}`,
         method: 'get',
         params
@@ -12,14 +11,14 @@ export default function createApi(moduleName){
     },
 
     getDetail: function(id) {
-      return fetch({
+      return request({
         url: `/${moduleName}/${id}`,
         method: 'get'
       })
     },
 
     saveDetail: function(detail) {
-      return fetch({
+      return request({
         url: `/${moduleName}`,
         method: 'post',
         data: detail
@@ -27,7 +26,7 @@ export default function createApi(moduleName){
     },
 
     updateDetail: function(id, detail) {
-      return fetch({
+      return request({
         url: `/${moduleName}/${id}`,
         method: 'put',
         data: detail
@@ -35,7 +34,7 @@ export default function createApi(moduleName){
     },
 
     deleteDetail: function(id) {
-      return fetch({
+      return request({
         url: `/${moduleName}/${id}`,
         method: 'delete'
       })

@@ -131,29 +131,29 @@ export const constantRouterMap = [
   },
   {
     component: Layout,
-    path:'/user',
+    path: '/user',
     redirect: '/user/index',
     icon: 'tubiao',
     noDropdown: true,
-    //name:'用户管理',
+    // name:'用户管理',
     children: [
-      { path: 'index', name: '用户管理', component: _import('user/index'), meta: { role: ['admin'] }},
-      { path: 'create', name: '新建用户', component: _import('user/detail'), meta: { role: ['admin'] }},
-      { path: ':id', name: '用户明细', component: _import('user/detail'), meta: { role: ['admin'] }}
+      { path: 'index', name: '用户管理', component: () => import('@/views/user/index'), meta: { role: ['admin'] }},
+      { path: 'create', name: '新建用户', component: () => import('@/views/user/detail'), meta: { role: ['admin'] }},
+      { path: ':id', name: '用户明细', component: () => import('@/views/user/detail'), meta: { role: ['admin'] }}
     ]
   },
 
   {
     component: Layout,
-    path:'/role',
+    path: '/role',
     redirect: '/role/index',
     icon: 'tubiao',
     noDropdown: true,
-    //name:'用户管理',
+    // name:'用户管理',
     children: [
-      { path: 'index', name: '角色管理', component: _import('role/index'), meta: { role: ['admin'] }},
-      { path: 'create', name: '创建角色', component: _import('role/detail'), meta: { role: ['admin'] }},
-      { path: ':id', name: '角色明细', component: _import('role/detail'), meta: { role: ['admin'] }}
+      { path: 'index', name: '角色管理', component: () => import('@/views/role/index'), meta: { role: ['admin'] }},
+      { path: 'create', name: '创建角色', component: () => import('@/views/role/detail'), meta: { role: ['admin'] }},
+      { path: ':id', name: '角色明细', component: () => import('@/views/role/detail'), meta: { role: ['admin'] }}
     ]
   },
   { path: '*', redirect: '/404', hidden: true }

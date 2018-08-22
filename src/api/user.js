@@ -1,39 +1,39 @@
-import fetch from '@/utils/fetch'
+import request from '@/utils/request'
 
 export function getList(params) {
-  return fetch({
+  return request({
     url: '/user',
     method: 'get',
     params
   })
-    }
+}
 
 export function getDetail(id) {
-    return fetch({
-        url: '/user/'+id,
-        method: 'get'
-    })
+  return request({
+    url: '/user/' + id,
+    method: 'get'
+  })
 }
 
-export function saveDetail(detail){
-    return fetch({
-        url: '/user',
-        method:'post',
-        data:detail
-    })
+export function saveDetail(detail) {
+  return request({
+    url: '/user',
+    method: 'post',
+    data: detail
+  })
 }
 
-export function updateDetail(id,detail){
-    return fetch({
-        url: '/user/'+id,
-        method:'put',
-        data:detail
-    })
+export function updateDetail(id, detail) {
+  return request({
+    url: '/user/' + id,
+    method: 'put',
+    data: detail
+  })
 }
 
-export function deleteDetail(id){
-    return fetch({
-    url:'/user/'+id,
-    method:'delete'
-    })
+export function deleteDetail(id) {
+  return request({
+    url: '/user/' + id,
+    method: 'delete'
+  })
 }

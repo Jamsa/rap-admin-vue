@@ -1,19 +1,19 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
-    <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
-    <levelbar></levelbar>
+    <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
+    <levelbar/>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
-        <i class="el-icon-caret-bottom"></i>
+        <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+        <i class="el-icon-caret-bottom"/>
       </div>
-      <el-dropdown-menu class="user-dropdown" slot="dropdown">
-        <router-link class='inlineBlock' to="/">
+      <el-dropdown-menu slot="dropdown" class="user-dropdown">
+        <router-link class="inlineBlock" to="/">
           <el-dropdown-item>
             主页
           </el-dropdown-item>
         </router-link>
-        <el-dropdown-item divided><span @click="logout" style="display:block;">注销</span></el-dropdown-item>
+        <el-dropdown-item divided><span style="display:block;" @click="logout">注销</span></el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </el-menu>
@@ -41,8 +41,8 @@ export default {
     },
     logout() {
       this.$store.dispatch('LogOut').then(() => {
-        location.reload()  // 为了重新实例化vue-router对象 避免bug
-      },()=>location.reload()
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      }, () => location.reload()
       )
     }
   }

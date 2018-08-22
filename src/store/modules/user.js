@@ -66,7 +66,6 @@ const user = {
         commit('SET_ROLES', [])
         removeToken()
         logout(state.token).then(() => {
-
           resolve()
         }).catch(error => {
           reject(error)
