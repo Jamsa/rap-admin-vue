@@ -9,7 +9,7 @@ const globalstate = {
     },
     REMOVE_STATE: (state, { module, key }) => {
       const moduleState = state[module] || {}
-      delete moduldState[key]
+      delete moduleState[key]
       state[module] = moduleState
     }
   },

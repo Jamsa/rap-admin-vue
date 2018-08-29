@@ -10,7 +10,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/rap':'http://localhost:9000/rap'
+      '/rap':'http://localhost:9000'
     },
 
     // Various Dev Server settings

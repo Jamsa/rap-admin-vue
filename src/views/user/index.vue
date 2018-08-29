@@ -11,43 +11,43 @@
     </el-row>
     <el-table v-loading.body="listLoading" :data="list" element-loading-text="拼命加载中" border fit highlight-current-row @row-dblclick="onDoubleClick">
       <el-table-column align="center" label="行号" width="95">
-        <template scope="scope">
+        <template slot-scope="scope">
           {{ scope.$index+1 }}
         </template>
       </el-table-column>
       <el-table-column label="姓名">
-        <template scope="scope">
+        <template slot-scope="scope">
           <router-link :to="{ path: '/user/'+scope.row.userId }">{{ scope.row.fullname }}</router-link>
         </template>
       </el-table-column>
       <el-table-column label="用户名" width="110" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="电话" width="110" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           {{ scope.row.tel }}
         </template>
       </el-table-column>
       <el-table-column label="年龄" width="110" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           {{ scope.row.birthday | ageFilter }}
         </template>
       </el-table-column>
       <el-table-column label="性别" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           {{ scope.row.sex | sexFilter }}
         </template>
       </el-table-column>
       <!--
             <el-table-column class-name="status-col" label="Status" width="110" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                     <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column align="center" prop="created_at" label="Display_time" width="200">
-                <template scope="scope">
+                <template slot-scope="scope">
                     <i class="el-icon-time"></i>
                     <span>{{scope.row.display_time}}</span>
                 </template>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { getList, getDetail } from '@/api/user'
+import userApi from '@/api/user'
 
 export default {
   filters: {
@@ -116,7 +116,7 @@ export default {
       this.listLoading = true
       // this.listQuery
       // console.log('111');
-      getList({ pageNum: this.pageNum, fullname: this.searchCondition.fullname }).then(response => {
+      userApi.getList({ pageNum: this.pageNum, fullname: this.searchCondition.fullname }).then(response => {
         // console.log(response);
         this.list = response.data.list
         this.total = response.data.total

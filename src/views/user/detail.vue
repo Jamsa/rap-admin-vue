@@ -23,6 +23,10 @@
           <el-option label="女" value="F"/>
         </el-select>
       </el-form-item>
+      <el-form-item label="角色">
+        <el-transfer v-model="userRoles" :data="roles" :titles="['角色','用户角色']" />
+      </el-form-item>
+
       <!--
       <el-form-item label="Activity time">
         <el-col :span="11">
@@ -65,12 +69,13 @@
 
 <script>
 
-import { getList, getDetail, saveDetail, updateDetail, deleteDetail } from '@/api/user'
+import userApi from '@/api/user'
+import roleApi from '@/api/role'
 
 export default {
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
+    /* const validateUsername = (rule, value, callback) => {
+      if (!isValidUsername(value)) {
         callback(new Error('请输入正确的用户名'))
       } else {
         callback()
@@ -82,9 +87,11 @@ export default {
       } else {
         callback()
       }
-    }
+    } */
     return {
       detail: { username: '', fullname: '' },
+      roles: [],
+      userRoles: [],
       detailLoading: false,
       /* form: {
           name: '',
@@ -102,19 +109,37 @@ export default {
       }
     }
   },
+  computed: {
+
+  },
   created() {
     const id = this.$route.params.id
     if (id) this.fetchData(id)
     else this.detail = { birthday: '1979-01-01', username: 'aaa', sex: 'M' }
+
+    this.fetchRoles()
   },
   methods: {
     fetchData(id) {
       this.detailLoading = true
-      getDetail(id).then(response => {
+      userApi.getDetail(id).then(response => {
         this.detail = Object.assign({ sex: 'F' }, response.data)
-        this.listLoading = false
-      }, error => {
+        this.userRoles = []
+        this.detail.roles.map(r => {
+          this.userRoles.push(r.roleId)
+        })
         this.detailLoading = false
+      }, () => {
+        this.detailLoading = false
+      })
+    },
+    fetchRoles() {
+      roleApi.getList({}).then(response => {
+        this.roles = []
+        response.data.list.map(r => {
+          const disable = this.detail.username === 'admin' && r.code === 'Administrator'
+          this.roles.push({ key: r.roleId, label: r.name, disabled: disable })
+        })
       })
     },
     onSubmit() {
@@ -122,18 +147,18 @@ export default {
         if (valid) {
           this.detailLoading = true
           if (this.detail && this.detail.primaryKey) {
-            updateDetail(this.detail.primaryKey, this.detail).then(response => {
+            userApi.updateDetail(this.detail.primaryKey, this.detail).then(response => {
               this.$message('修改成功!')
               this.detailLoading = false
-            }, error => {
+            }, () => {
               this.detailLoading = false
             })
           } else {
-            saveDetail(this.detail).then(response => {
+            userApi.saveDetail(this.detail).then(response => {
               this.$message('创建成功!')
               this.$router.push({ path: '/user/' + response.data.primaryKey })
               this.detailLoading = false
-            }, error => {
+            }, () => {
               this.detailLoading = false
             })
           }
@@ -142,11 +167,11 @@ export default {
     },
     onDelete(id) {
       this.detailLoading = true
-      deleteDetail(id).then(response => {
+      userApi.deleteDetail(id).then(response => {
         this.$message('删除成功！')
         this.detailLoading = false
         this.$router.push({ path: '/user' })
-      }, error => {
+      }, () => {
         this.detailLoading = false
       })
     }

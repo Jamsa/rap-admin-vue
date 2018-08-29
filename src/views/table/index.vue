@@ -1,46 +1,44 @@
 <template>
   <div class="app-container">
-    <el-table v-loading.body="listLoading" :data="list" element-loading-text="拼命加载中" border fit highlight-current-row>
-      <el-table-column align="center" label="行号" width="95">
-        <template scope="scope">
-          {{ scope.$index+1 }}
+    <el-table
+      v-loading="listLoading"
+      :data="list"
+      element-loading-text="Loading"
+      border
+      fit
+      highlight-current-row>
+      <el-table-column align="center" label="ID" width="95">
+        <template slot-scope="scope">
+          {{ scope.$index }}
         </template>
       </el-table-column>
-      <el-table-column label="姓名">
-        <template scope="scope">
-          {{ scope.row.fullname }}
+      <el-table-column label="Title">
+        <template slot-scope="scope">
+          {{ scope.row.title }}
         </template>
       </el-table-column>
-      <el-table-column label="用户名" width="110" align="center">
-        <template scope="scope">
-          <span>{{ scope.row.username }}</span>
+      <el-table-column label="Author" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="电话" width="110" align="center">
-        <template scope="scope">
-          {{ scope.row.tel }}
+      <el-table-column label="Pageviews" width="110" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.pageviews }}
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" label="Status" width="110" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="created_at" label="Display_time" width="200">
-        <template scope="scope">
+        <template slot-scope="scope">
           <i class="el-icon-time"/>
           <span>{{ scope.row.display_time }}</span>
         </template>
       </el-table-column>
     </el-table>
-
-    <el-pagination
-      :current-page="pageNum"
-      :total="total"
-      background
-      layout="prev, pager, next"
-      @current-change="changePage"/>
-
   </div>
 </template>
 
@@ -61,8 +59,6 @@ export default {
   data() {
     return {
       list: null,
-      total: 0,
-      pageNum: 1,
       listLoading: true
     }
   },
@@ -72,19 +68,10 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      // this.listQuery
-      // console.log('111');
-      getList({ pageNum: this.pageNum }).then(response => {
-        // console.log(response);
-        this.list = response.data.list
-        this.total = response.data.total
-        this.pageNum = response.data.pageNum
+      getList(this.listQuery).then(response => {
+        this.list = response.data.items
         this.listLoading = false
       })
-    },
-    changePage(val) {
-      this.pageNum = val
-      this.fetchData()
     }
   }
 }

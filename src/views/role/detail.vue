@@ -58,22 +58,8 @@
 import roleApi from '@/api/role'
 
 export default {
-  props: ['primaryKey', 'load'],
+  props: { primaryKey: { type: Number, default: 0 }, load: { type: Boolean, default: false }},
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
-      } else {
-        callback()
-      }
-    }
-    const validateFullname = (rule, value, callback) => {
-      if (value.length < 5) {
-        callback(new Error('密码不能小于5位'))
-      } else {
-        callback()
-      }
-    }
     return {
       detail: { name: 'name', code: 'code' },
       detailLoading: false,
@@ -96,7 +82,6 @@ export default {
   watch: {
     load: function(nv, ov) {
       if (nv) {
-        console.log('load')
         this.fetchData(this.primaryKey)
       }
     }
@@ -106,7 +91,6 @@ export default {
       * if(id) this.fetchData(id)
       * else this.detail = { name: 'role name', code: 'code'} */
     this.fetchData(this.primaryKey)
-    console.log('#####')
   },
   methods: {
     fetchData(id) {

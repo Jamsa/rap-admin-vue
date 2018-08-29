@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+import { Message } from 'element-ui' // MessageBox
 import store from '../store'
 import { getToken } from '@/utils/auth'
 
@@ -31,7 +31,7 @@ service.interceptors.response.use(
 
     /**
      * code为非20000是抛错 可结合自己业务进行修改
-     */
+
     const res = response.data
     if (res.code !== 20000) {
       Message({
@@ -60,6 +60,7 @@ service.interceptors.response.use(
     } else {
       return response.data
     }
+     */
   },
   error => {
     console.log('err' + error) // for debug

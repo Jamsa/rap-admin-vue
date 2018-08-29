@@ -32,34 +32,34 @@
     -->
     <el-table v-loading.body="listLoading" :data="list" element-loading-text="拼命加载中" border fit highlight-current-row @row-dblclick="onDoubleClick" @current-change="onCurrentChange">
       <el-table-column align="center" label="行号" width="95">
-        <template scope="scope">
+        <template slot-scope="scope">
           {{ scope.$index+1 }}
         </template>
       </el-table-column>
       <el-table-column label="名称">
-        <template scope="scope">
+        <template slot-scope="scope">
           <router-link :to="{ path: '/role/'+scope.row.roleId }">{{ scope.row.name }}</router-link>
         </template>
       </el-table-column>
       <el-table-column label="代码" width="110" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
       <el-table-column label="备注" width="110" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           {{ scope.row.memo }}
         </template>
       </el-table-column>
 
       <!--
            <el-table-column class-name="status-col" label="Status" width="110" align="center">
-           <template scope="scope">
+           <template slot-scope="scope">
            <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
            </template>
            </el-table-column>
            <el-table-column align="center" prop="created_at" label="Display_time" width="200">
-           <template scope="scope">
+           <template slot-scope="scope">
            <i class="el-icon-time"></i>
            <span>{{scope.row.display_time}}</span>
            </template>

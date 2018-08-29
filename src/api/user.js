@@ -1,5 +1,8 @@
-import request from '@/utils/request'
+import createApi from '@/utils/apis'
 
+export default createApi('user')
+
+/*
 export function getList(params) {
   return request({
     url: '/user',
@@ -36,4 +39,4 @@ export function deleteDetail(id) {
     url: '/user/' + id,
     method: 'delete'
   })
-}
+}*/
