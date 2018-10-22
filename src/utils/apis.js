@@ -9,7 +9,13 @@ export default function createApi(moduleName) {
         params
       })
     },
-
+    getSubList: function(subname,params) {
+      return request({
+        url: `/${moduleName}/${subname}`,
+        method: 'get',
+        params
+      })
+    },
     getDetail: function(id) {
       return request({
         url: `/${moduleName}/${id}`,

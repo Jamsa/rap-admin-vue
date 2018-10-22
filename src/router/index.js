@@ -158,6 +158,20 @@ export const constantRouterMap = [
       { path: ':id', name: '角色明细', component: () => import('@/views/role/detail'), meta: { role: ['admin'], title: '角色明细' }, hidden: true }
     ]
   },
+  {
+    component: Layout,
+    path: '/metaViewObject',
+    redirect: '/metaViewObject/index',
+    icon: 'tubiao',
+    noDropdown: true,
+    name: '视图对象',
+    meta: { title: '视图对象' },
+    children: [
+      { path: 'index', name: '视图对象管理', component: () => import('@/views/metaViewObject/index'), meta: { role: ['admin'], title: '视图对象管理' }},
+      { path: 'create', name: '创建视图对象', component: () => import('@/views/metaViewObject/detail'), meta: { role: ['admin'], title: '创建视图对象' }, hidden: true },
+      { path: ':id', name: '视图对象明细', component: () => import('@/views/metaViewObject/detail'), meta: { role: ['admin'], title: '视图对象明细' }, hidden: true }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

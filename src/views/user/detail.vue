@@ -146,6 +146,13 @@ export default {
       this.$refs.detailForm.validate(valid => {
         if (valid) {
           this.detailLoading = true
+
+          this.detail.roles = []
+
+          this.userRoles.map(r => {
+            this.detail.roles.push({ roleId: r })
+          })
+
           if (this.detail && this.detail.primaryKey) {
             userApi.updateDetail(this.detail.primaryKey, this.detail).then(response => {
               this.$message('修改成功!')

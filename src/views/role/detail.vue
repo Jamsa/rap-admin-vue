@@ -11,36 +11,30 @@
         <el-input v-model="detail.memo"/>
       </el-form-item>
 
-      <!--
-      <el-form-item label="Activity time">
-        <el-col :span="11">
-          <el-date-picker type="date" placeholder="Pick a date" v-model="form.date1" style="width: 100%;"/>
-        </el-col>
-        <el-col class="line" :span="2">-</el-col>
-        <el-col :span="11">
-          <el-time-picker type="fixed-time" placeholder="Pick a time" v-model="form.date2" style="width: 100%;"></el-time-picker>
-        </el-col>
+      <el-form-item label="资源">
+        <!--<el-table v-loading.body="listLoading" :data="list" element-loading-text="拼命加载中" border fit highlight-current-row @row-dblclick="onDoubleClick" @current-change="onCurrentChange">
+          <el-table-column align="center" label="行号" width="95">
+            <template slot-scope="scope">
+              {{ scope.$index+1 }}
+            </template>
+          </el-table-column>
+          <el-table-column label="名称">
+            <template slot-scope="scope">
+              <router-link :to="{ path: '/role/'+scope.row.roleId }">{{ scope.row.name }}</router-link>
+            </template>
+          </el-table-column>
+          <el-table-column label="代码" width="110" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.code }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="备注" width="110" align="center">
+            <template slot-scope="scope">
+              {{ scope.row.memo }}
+            </template>
+          </el-table-column>
+        </el-table>-->
       </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch on-text="" off-text="" v-model="form.delivery"></el-switch>
-      </el-form-item>
-      <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type"></el-checkbox>
-          <el-checkbox label="Promotion activities" name="type"></el-checkbox>
-          <el-checkbox label="Offline activities" name="type"></el-checkbox>
-          <el-checkbox label="Simple brand exposure" name="type"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor"></el-radio>
-          <el-radio label="Venue"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form">
-        <el-input type="textarea" v-model="form.desc"/>
-      </el-form-item>-->
       <el-form-item>
 
         <el-button type="primary" @click="onSubmit(false)">保存</el-button>
@@ -58,7 +52,7 @@
 import roleApi from '@/api/role'
 
 export default {
-  props: { primaryKey: { type: Number, default: 0 }, load: { type: Boolean, default: false }},
+  props: { primaryKey: { type: [String, Number], default: '' }, load: { type: Boolean, default: false }},
   data() {
     return {
       detail: { name: 'name', code: 'code' },

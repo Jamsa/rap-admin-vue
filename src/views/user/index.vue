@@ -1,15 +1,16 @@
 <template>
   <div class="app-container">
-    <el-row>
-      <el-col><el-button type="primary" @click="onCreate" >创建</el-button></el-col> <el-col>
-        <el-form ref="searchForm" :model="searchCondition">
-          <el-form-item label="姓名">
-            <el-input v-model="searchCondition.fullname"/>
-          </el-form-item>
-        </el-form>
-      <el-button type="primary" @click="fetchData" >查询</el-button></el-col>
-    </el-row>
-    <el-table v-loading.body="listLoading" :data="list" element-loading-text="拼命加载中" border fit highlight-current-row @row-dblclick="onDoubleClick">
+    <div class="filter-container">
+      <el-input v-model="searchCondition.fullname" style="width: 200px;" class="filter-item" placeholder="姓名" @keyup.enter.native="query"/>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="fetchData">搜索</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-add" @click="onCreate">添加</el-button>
+      <!--<el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="onEdit">编辑</el-button>
+
+      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('table.export')}}</el-button>
+
+      <el-checkbox class="filter-item" style='margin-left:15px;' @change='tableKey=tableKey+1' v-model="showReviewer">{{$t('table.reviewer')}}</el-checkbox>    -->
+    </div>
+    <el-table v-loading.body="listLoading" :data="list" element-loading-text="拼命加载中" border fit highlight-current-row @row-dblclick="edit">
       <el-table-column align="center" label="行号" width="95">
         <template slot-scope="scope">
           {{ scope.$index+1 }}
@@ -60,7 +61,7 @@
       :total="total"
       background
       layout="prev, pager, next"
-      @current-change="changePage"/>
+      @current-change="gotoPage"/>
 
   </div>
 </template>
@@ -68,7 +69,13 @@
 <script>
 import userApi from '@/api/user'
 
-export default {
+let obj = {
+  options:{
+    moduleName: 'user',
+    api: userApi,
+    createPath: '/user/create',
+    editPath: '/user/'
+  },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -109,10 +116,10 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    this.query()
   },
   methods: {
-    fetchData() {
+    query() {
       this.listLoading = true
       // this.listQuery
       // console.log('111');
@@ -128,16 +135,17 @@ export default {
         this.listLoading = false
       })
     },
-    changePage(val) {
+    gotoPage(val) {
       this.pageNum = val
-      this.fetchData()
+      this.query()
     },
-    onDoubleClick(row, event) {
+    edit(row, event) {
       this.$router.push({ path: '/user/' + row.primaryKey })
     },
-    onCreate() {
+    create() {
       this.$router.push({ path: '/user/create' })
     }
   }
 }
+export default obj
 </script>
