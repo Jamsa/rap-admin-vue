@@ -54,29 +54,17 @@
 
 <script>
 import api from '@/api/metaViewObject'
-import {listPageMixin} from '@/utils/views'
+import { listPageMixin } from '@/utils/views'
 import { default as MetaViewObjectForm } from './detail.vue'
 
 // import waves from '@/directive/waves' // 水波纹指令
 
 export default {
-  mixins: [listPageMixin],
   components: {
     MetaViewObjectForm
   },
   directives: {
     // waves
-  },
-  data() {
-    return {
-      api: api,
-      moduleName: 'metaViewObject',
-      keyFieldName: 'viewObjectId',
-      sortOptions: [{label: '名称升序', value: 'objectName asc'}, {label: '名称倒序', value: 'objectName asc'}, {
-        label: '代码升序',
-        value: 'objectCode asc'
-      }, {label: '编号倒序', value: 'objectCode desc'}],
-    }
   },
   filters: {
     statusFilter(status) {
@@ -86,6 +74,19 @@ export default {
         deleted: 'danger'
       }
       return statusMap[status]
+    }
+  },
+  mixins: [listPageMixin],
+  data() {
+    return {
+      api: api,
+      moduleName: 'metaViewObject',
+      keyFieldName: 'viewObjectId',
+      searchCondition: { objectName: '', objectCode: '' },
+      sortOptions: [{ label: '名称升序', value: 'objectName asc' }, { label: '名称倒序', value: 'objectName asc' }, {
+        label: '代码升序',
+        value: 'objectCode asc'
+      }, { label: '编号倒序', value: 'objectCode desc' }]
     }
   }
 }

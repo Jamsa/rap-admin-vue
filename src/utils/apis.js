@@ -9,9 +9,9 @@ export default function createApi(moduleName) {
         params
       })
     },
-    getSubList: function(subname,params) {
+    gridQuery: function(subname,id, params) {
       return request({
-        url: `/${moduleName}/${subname}`,
+        url: `/${moduleName}/${id}/${subname}`,
         method: 'get',
         params
       })

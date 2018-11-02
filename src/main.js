@@ -8,6 +8,9 @@ import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
 
+import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+import "../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css";
+
 import App from './App'
 import router from './router'
 import store from './store'

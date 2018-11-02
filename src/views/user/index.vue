@@ -69,8 +69,8 @@
 <script>
 import userApi from '@/api/user'
 
-let obj = {
-  options:{
+const obj = {
+  options: {
     moduleName: 'user',
     api: userApi,
     createPath: '/user/create',
