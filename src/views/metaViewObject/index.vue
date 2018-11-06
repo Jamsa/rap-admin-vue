@@ -27,12 +27,12 @@
           <!--<router-link :to="{ path: '/metaViewObject/'+scope.row.viewObjectId }">{{ scope.row.objectName }}</router-link>-->
         </template>
       </el-table-column>
-      <el-table-column label="代码" width="110" align="center">
+      <el-table-column label="代码" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.objectCode }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="表名" width="110" align="center">
+      <el-table-column label="表名" align="center">
         <template slot-scope="scope">
           {{ scope.row.tableCode }}
         </template>
@@ -65,16 +65,6 @@ export default {
   },
   directives: {
     // waves
-  },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    }
   },
   mixins: [listPageMixin],
   data() {

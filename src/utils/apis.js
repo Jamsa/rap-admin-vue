@@ -9,7 +9,7 @@ export default function createApi(moduleName) {
         params
       })
     },
-    gridQuery: function(subname,id, params) {
+    gridQuery: function(subname, id, params) {
       return request({
         url: `/${moduleName}/${id}/${subname}`,
         method: 'get',
