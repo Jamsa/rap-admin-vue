@@ -23,17 +23,18 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="字段信息" name="fields">
-        <el-row>
-          <el-col :span="22">
+        <el-row type="flex" align="middle">
+          <el-col :span="21">
             <el-pagination
               :current-page="grids.metaViewField.pageNum"
               :total="grids.metaViewField.total"
+              :page-size="grids.metaViewField.pageSize"
               background
               layout="prev, pager, next"
               @current-change="(page)=>{gotoPage('metaViewField',recordId,page)}"
           /></el-col>
-          <el-col :span="2">
-            <i class="el-icon-plus" @click="gridAdd('metaViewField',{})" />
+          <el-col :span="3">
+            <el-button icon="el-icon-plus" type="primary" @click="gridAdd('metaViewField',{})" />
           </el-col>
         </el-row>
         <el-table v-loading.body="grids.metaViewField.loading" :data="grids.metaViewField.list" :row-class-name="gridRowClassName" style="margin-bottom: 20px" element-loading-text="拼命加载中" border fit highlight-current-row @row-dblclick="gridEdit" @current-change="gridSelectRow()">
@@ -57,7 +58,7 @@
           </el-table-column>
           <el-table-column label="别名" align="center">
             <template slot-scope="scope">
-              <el-input v-if="scope.row._inedit" v-model="scope.row.fieldAlias" class="edit-input" size="small"/>
+              <el-input v-if="scope.row._inedit" v-model="scope.row.fieldAlias" @change="gridSave('metaViewField', scope.row)" class="edit-input" size="small"/>
               <span v-else >{{ scope.row.fieldAlias }}</span>
             </template>
           </el-table-column>
@@ -68,10 +69,13 @@
               <el-button size="mini" @click="gridAdd('metaViewField',{})">Add</el-button>
             </template>
             <template slot-scope="scope">
-              <i v-show="scope.row._inedit" class="el-icon-check" @click="gridSave('metaViewField',scope.row)"/>
-              <i v-show="scope.row._inedit" class="el-icon-close" @click="gridCancel('metaViewField',scope.row)"/>
-              <i v-show="!scope.row._inedit && !scope.row._deleted" class="el-icon-edit" @click="gridEdit('metaViewField',scope.row)"/>
-              <i v-show="!scope.row._inedit && !scope.row._deleted" class="el-icon-delete" @click="gridDel('metaViewField',scope.row)"/>
+
+              <i v-show="grids.metaViewField.editType==='inline' && scope.row._inedit" class="el-icon-check" @click="gridSave('metaViewField',scope.row)"/>
+              <i v-show="grids.metaViewField.editType==='inline' && scope.row._inedit" class="el-icon-close" @click="gridCancel('metaViewField',scope.row)"/>
+              <i v-show="grids.metaViewField.editType==='inline' && !scope.row._inedit && !scope.row._deleted" class="el-icon-edit" @click="gridEdit('metaViewField',scope.row)"/>
+              <i v-show="grids.metaViewField.editType==='inline' && !scope.row._inedit && !scope.row._deleted" class="el-icon-delete" @click="gridDel('metaViewField',scope.row)"/>
+
+              <i v-show="grids.metaViewField.editType==='cell' && !scope.row._deleted" class="el-icon-delete" @click="gridDel('metaViewField',scope.row)"/>
             </template>
           </el-table-column>
 
@@ -80,14 +84,15 @@
       </el-tab-pane>
 
     </el-tabs>
-    <el-row>
-      <el-col :span="24"/>
-      <el-col :span="3"><el-button type="primary" @click="save(false)">保存</el-button></el-col>
-      <el-col :span="4"><el-button type="primary" @click="save(true)">保存&新增</el-button></el-col>
-      <el-col :span="3"><el-button v-if="isNew==false" type="danger" @click="del(detail[keyFieldName])">删除</el-button></el-col>
+    <el-row type="flex" justify="end">
+      <el-button-group>
+      <el-button type="primary" @click="save(false)">保存</el-button>
+      <el-button type="primary" @click="save(true)">保存&新增</el-button>
+      <el-button v-if="isNew==false" type="danger" @click="del(detail[keyFieldName])">删除</el-button>
       <!--
       <router-link :to="{path: '/role/index'}"><el-button>返回</el-button></router-link>
       -->
+      </el-button-group>
     </el-row>
   </div>
 
@@ -95,16 +100,15 @@
 
 <style>
   .el-table .deleted-row {
-    border-color: #f00;
-
+    background-color: #F56C6C;
   }
 
   .el-table .updated-row {
-    background: #00f;
+    background-color: #E6A23C;
   }
 
   .el-table .added-row {
-    background: #0f0;
+    background-color: #67C23A;
   }
 </style>
 
@@ -119,7 +123,11 @@ export default {
       api: api,
       keyFieldName: 'viewObjectId',
       grids: {
-        metaViewField: {}
+        metaViewField: {
+          //editType:'inline'
+          editType:'cell',
+          pageSize:5
+        }
       }
     }
   },

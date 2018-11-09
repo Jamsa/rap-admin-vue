@@ -123,8 +123,10 @@ export const editPageMixin = {
       defaultGridOptions: {
         list: [],
         loading: false,
+        editType: 'cell',//'inline'
         total: 0,
         pageNum: 1,
+        pageSize: 10,
         searchCondition: {},
         sortOptions: {},
         addRows: [],
@@ -266,25 +268,27 @@ export const editPageMixin = {
     },
     gridQuery(name, id, params) {
       if (this.grids[name]) {
-        this.api.gridQuery(name, id, params).then(response => {
+        let param = Object.assign({},{pageSize:this.grids[name].pageSize,pageNum:this.grids[name].pageNum},params)
+        this.api.gridQuery(name, id, param).then(response => {
+          let gridState = Object.assign({},this.grids[name])
           const data = response.data.list
           data.map(function(v) {
-            v._inedit = false
+            v._inedit = (gridState.editType === 'cell')
             v._added = false
             v._updated = false
             v._deleted = false
           })
+          gridState.list = data
+          gridState.loading = false
+          gridState.total = response.data.total
+          gridState.pageNum = response.data.pageNum
+          gridState.addRows = []
+          gridState.updateRows = []
+          gridState.deleteRows = []
+
           const result = {}
-          result[name] = {
-            list: data,
-            loading: false,
-            total: response.data.total,
-            pageNum: response.data.pageNum,
-            addRows: [],
-            updateRows: [],
-            deleteRows: []
-          }
-          Object.assign(this.grids, result)
+          result[name] = gridState
+          this.grids = Object.assign({}, this.grids, result)
         }, e => {
           const result = {}
           result[name] = {
@@ -299,7 +303,7 @@ export const editPageMixin = {
     },
     gridAdd(name, row) {
       if (this.grids[name] === undefined) return
-      row._inedit = true
+      row._inedit = true // (this.grids[name].editType === 'cell')
       row._added = true
       row._updated = false
       row._deleted = false
@@ -363,12 +367,26 @@ export const editPageMixin = {
         row._updated = true
       }
       if (!arr.includes(row)) arr.push(row)
-      row._inedit = false
-      delete row._originData
+
+      if (this.grids[name].editType != 'cell') {
+        row._inedit = false
+        delete row._originData
+      }
     },
+    /*gridChange(name, row) {
+      if (this.grids[name] === undefined) return
+      let arr = []
+      if (row._added === true) {
+        arr = this.grids[name].addRows
+      } else {
+        arr = this.grids[name].updateRows
+        row._updated = true
+      }
+      if (!arr.includes(row)) arr.push(row)
+    },*/
     gridRowClassName({ row, rowIndex }) {
-      return ''
-      if (row._inedit) return ''
+      //return ''
+      //if (this.grids[name].editType != 'cell' && row._inedit) return ''
 
       if (row._deleted) {
         return 'deleted-row'
